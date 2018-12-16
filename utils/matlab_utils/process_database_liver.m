@@ -1,7 +1,8 @@
 addpath('../../tools/nifti_library/');
 
 %folder with .nii files 
-niftis_path = '../../Database/media/nas/01_Datasets/CT/LITS/Training Batch 1/';
+niftis_path = 'F:\DEEP_LEARNING\LITS\Training_Batch1-001\media\nas\01_Datasets\CT\LITS\Training Batch 1\';
+%niftis_path = 'F:\DEEP_LEARNING\LITS\Training_Batch2-002\media\nas\01_Datasets\CT\LITS\Training Batch 2\';
 
 root_process_database = '../../LiTS_database/';
 folder_volumes = strcat(root_process_database, 'images_volumes/');
