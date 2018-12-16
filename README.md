@@ -1,3 +1,6 @@
+This code is forked from https://github.com/imatge-upc/liverseg-2017-nipsws
+Original code is designed to work with Python 2.7, I will be modifying the code to work with Python 3.7
+
 # Detection-aided liver lesion segmentation
 
 Here we present the implementation in TensorFlow of our [work](https://arxiv.org/abs/1711.11069) about liver lesion segmentation accepted in the [Machine Learning 4 Health Workshop](https://ml4health.github.io/2017/) of NIPS 2017. Check our [project](https://imatge-upc.github.io/liverseg-2017-nipsws/) page for more information.
