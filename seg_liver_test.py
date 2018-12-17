@@ -18,12 +18,17 @@ from dataset.dataset_seg import Dataset
 
 number_slices = 3
 
-task_name = 'seg_liver_ck'
+#task_name = 'seg_liver_ck'
+# This was actually saved as seg_liver from seg_liver_train.py
+task_name = 'seg_liver'
 
 database_root = os.path.join(root_folder, 'LiTS_database')
 logs_path = os.path.join(root_folder, 'train_files', task_name, 'networks')
 result_root = os.path.join(root_folder, 'results')
-model_name = os.path.join(logs_path, "seg_liver.ckpt")
+
+#model_name = os.path.join(logs_path, "seg_liver.ckpt")
+# The last saved checkpoint from seg_liver_train.py
+model_name = os.path.join(logs_path, "seg_liver.ckpt-50000")
 
 test_file = os.path.join(root_folder, 'seg_DatasetList/testing_volume_3.txt')
 
@@ -31,4 +36,11 @@ dataset = Dataset(None, test_file, None, database_root, number_slices, store_mem
 
 result_path = os.path.join(result_root, task_name)
 checkpoint_path = model_name
+
+## As is, line 46 (segmentation.test...) throws an error: 
+#ValueError: Variable seg_liver/conv1/conv1_1/weights already exists, disallowed. Did you mean to set reuse=True or reuse=tf.AUTO_REUSE in VarScope? Originally defined at:
+
+# Adding the following line seems to resolve the problem:
+tf.reset_default_graph() 
+
 segmentation.test(dataset, checkpoint_path, result_path, number_slices)

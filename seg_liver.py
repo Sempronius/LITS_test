@@ -635,9 +635,19 @@ def test(dataset, checkpoint_path, result_path, number_slices=1, volume=False, c
                     os.makedirs(os.path.join(result_path, curr_ct_scan))
                 image = preprocess_img(curr_img, number_slices)
                 res = sess.run(probabilities, feed_dict={input_image: image})
-                res_np = res.astype(np.float32)[0, :, :, number_of_slices / 2]
 
-                aux_var = curr_frames[number_of_slices / 2][0]
+
+                ## This line:                
+                #res_np = res.astype(np.float32)[0, :, :, number_of_slices / 2]
+                # throws error: 
+                #IndexError: only integers, slices (`:`), ellipsis (`...`), numpy.newaxis (`None`) and integer or boolean arrays are valid indices
+                res_np = res.astype(np.float32)[0, :, :, number_of_slices//2]
+
+                #aux_var = curr_frames[number_of_slices / 2][0]
+                aux_var = curr_frames[number_of_slices//2][0]
+                
+                
+                
                 scipy.misc.imsave(os.path.join(result_path, curr_ct_scan, aux_var), res_np)
                 print("Saving: {}".format(os.path.join(result_path, curr_ct_scan, aux_var)))
                 for i in range(number_of_slices):
