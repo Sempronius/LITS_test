@@ -18,13 +18,15 @@ from dataset.dataset_det import Dataset
 
 gpu_id = 0
 
-task_name = 'det_lesion_ck'
+#Changed to match det_lesion_train.py
+task_name = 'det_lesion'
 
 database_root = os.path.join(root_folder, 'LiTS_database')
 logs_path = os.path.join(root_folder, 'train_files', task_name, 'networks')
 result_root = os.path.join(root_folder, 'detection_results/')
 
-model_name = os.path.join(logs_path, "det_lesion.ckpt")
+# Added last model save file from det_lesion_train.py
+model_name = os.path.join(logs_path, "det_lesion.ckpt-5000")
 
 val_file_pos = os.path.join(root_folder, 'det_DatasetList', 'testing_positive_det_patches.txt')
 val_file_neg = os.path.join(root_folder, 'det_DatasetList', 'testing_negative_det_patches.txt')
