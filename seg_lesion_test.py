@@ -21,10 +21,15 @@ import utils.det_filter
 
 gpu_id = 0
 number_slices = 3
+# Test crops_LiTs (default)
+#crops_list = 'crops_LiTS_gt.txt'
+# crops list output from compute_3D_bbs_from_gt_liver.py
+crops_list = 'crops_LiTS_gt_2.txt'
 
-crops_list = 'crops_LiTS_gt.txt'
 det_results_list = 'detection_lesion_example'
+
 task_name = 'seg_lesion_ck'
+
 
 
 database_root = os.path.join(root_folder, 'LiTS_database')

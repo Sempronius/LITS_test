@@ -4,6 +4,7 @@ Sergi Caelles (scaelles@vision.ee.ethz.ch)
 
 Modified code for liver and lesion segmentation:
 Miriam Bellver (miriam.bellver@bsc.es)
+
 """
 
 import os
@@ -30,7 +31,14 @@ result_root = os.path.join(root_folder, 'results')
 # The last saved checkpoint from seg_liver_train.py
 model_name = os.path.join(logs_path, "seg_liver.ckpt-50000")
 
-test_file = os.path.join(root_folder, 'seg_DatasetList/testing_volume_3.txt')
+
+## Computer_3D_bbs_from_gt_liver.py requires running testing_volume_3 then training_volume_3 so that you have segmented the entire dataset. 
+#test_file = os.path.join(root_folder, 'seg_DatasetList/testing_volume_3.txt')
+test_file = os.path.join(root_folder, 'seg_DatasetList/training_volume_3.txt')
+
+# once completed, will need to move this directory as indicated in the readme file.
+# copy 'seg_liver' from results folder to the LiTS_database
+
 
 dataset = Dataset(None, test_file, None, database_root, number_slices, store_memory=False)
 
