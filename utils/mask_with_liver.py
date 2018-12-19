@@ -6,12 +6,13 @@ import math
 
 
 def numerical_sort(value):
-    return int(value.split('.png')[0].split('/')[-1])
+    #return int(value.split('.png')[0].split('/')[-1])
+    return int(value.split('.png')[0].split('\\')[-1])
 
 
 def mask(base_root, labels_path, input_config='out_lesion/', th=0.5):
 
-    results_path = base_root + 'results/'
+    results_path = base_root + '/results/'
 
     input_images_path = results_path + input_config
     output_images_path = results_path + 'masked_' + input_config
@@ -34,10 +35,15 @@ def mask(base_root, labels_path, input_config='out_lesion/', th=0.5):
                 img = misc.imread(file_names[j])
                 img = img/255.0
 
-                original_label = misc.imread(os.path.join(labels_path, dir_name, file_names[j].split('.png')[0].split('/')[-1] + '.png'))
+                #original_label = misc.imread(os.path.join(labels_path, dir_name, file_names[j].split('.png')[0].split('/')[-1] + '.png'))
+                original_label = misc.imread(os.path.join(labels_path, dir_name, file_names[j].split('.png')[0].split('\\')[-1] + '.png'))
+
+                
+                
                 original_label = original_label/255.0
                 original_label[np.where(original_label > th)] = 1
                 original_label[np.where(original_label < th)] = 0
                 img[np.where(original_label == 0)] = 0
 
-                misc.imsave(os.path.join(output_images_path,  dir_name,  file_names[j].split('.png')[0].split('/')[-1] + '.png'), img)
+                #misc.imsave(os.path.join(output_images_path,  dir_name,  file_names[j].split('.png')[0].split('/')[-1] + '.png'), img)
+                misc.imsave(os.path.join(output_images_path,  dir_name,  file_names[j].split('.png')[0].split('\\')[-1] + '.png'), img)

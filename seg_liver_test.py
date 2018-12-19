@@ -45,7 +45,7 @@ dataset = Dataset(None, test_file, None, database_root, number_slices, store_mem
 result_path = os.path.join(result_root, task_name)
 checkpoint_path = model_name
 
-## As is, line 46 (segmentation.test...) throws an error: 
+## As is, line 54 (segmentation.test...) throws an error: 
 #ValueError: Variable seg_liver/conv1/conv1_1/weights already exists, disallowed. Did you mean to set reuse=True or reuse=tf.AUTO_REUSE in VarScope? Originally defined at:
 
 # Adding the following line seems to resolve the problem:

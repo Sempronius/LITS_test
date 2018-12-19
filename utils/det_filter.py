@@ -7,15 +7,15 @@ from PIL import Image
 
 def filter(base_root, crops_list='crops_LiTS_gt.txt', input_config='masked_out_lesion', results_list='detection_lesion_example', th=0.5):
 
-    crops_list = base_root + 'utils/crops_list/' + crops_list
-    results_list = base_root + 'detection_results/' + results_list + '/soft_results.txt'
+    crops_list = base_root + '/utils/crops_list/' + crops_list
+    results_list = base_root + '/detection_results/' + results_list + '/soft_results.txt'
 
     if crops_list is not None:
         with open(crops_list) as t:
             crops_lines = t.readlines()
 
-    input_results_path = base_root + 'results/' + input_config
-    output_results_path = base_root + 'results/det_' + input_config
+    input_results_path = base_root + '/results/' + input_config
+    output_results_path = base_root + '/results/det_' + input_config
 
     if not os.path.exists(os.path.join(output_results_path)):
         os.makedirs(os.path.join(output_results_path))
