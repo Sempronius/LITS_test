@@ -307,8 +307,12 @@ def train(dataset, initial_ckpt, learning_rate, logs_path, max_training_iters, s
         sess.run(init)
 
         # op to write logs to Tensorboard
-        summary_writer = tf.summary.FileWriter(logs_path + '/train', graph=tf.get_default_graph())
-        test_writer = tf.summary.FileWriter(logs_path + '/test')
+        logs_path_train = os.path.join(logs_path,'train')
+        logs_path_test = os.path.join(logs_path,'test')
+        #summary_writer = tf.summary.FileWriter(logs_path + '/train', graph=tf.get_default_graph())
+        #test_writer = tf.summary.FileWriter(logs_path + '/test')
+        summary_writer = tf.summary.FileWriter(logs_path_train, graph=tf.get_default_graph())
+        test_writer = tf.summary.FileWriter(logs_path_test)
 
         # Create saver to manage checkpoints
         saver = tf.train.Saver(max_to_keep=None)

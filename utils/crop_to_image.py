@@ -2,17 +2,12 @@ import numpy as np
 from scipy import misc
 import os
 
-def crop(base_root, input_config='lesion/',
-         crops_list='./crops_list/crops_LiTS_gt.txt'):
-         #crops_list='./crops_list/crops_LiTS_gt_2.txt'):
-         # Test crops_LiTs (default)
-         #crops_list = 'crops_LiTS_gt.txt'
-         # crops list output from compute_3D_bbs_from_gt_liver.py
-
-
-    crops_list = base_root + '/utils/crops_list/' + crops_list
-    input_results_path = base_root + '/results/' + input_config
-    output_results_path = base_root + '/results/out_' + input_config
+def crop(base_root, input_config='lesion',
+         crops_list='crops_LiTS_gt2.txt'):
+    
+    crops_list = os.path.join(base_root,'utils','crops_list',crops_list)
+    input_results_path = os.path.join(base_root,'results',input_config)
+    output_results_path = os.path.join(base_root,'results','out_' + input_config)
 
     if crops_list is not None:
         with open(crops_list) as t:
@@ -31,16 +26,19 @@ def crop(base_root, input_config='lesion/',
                 id_img, bool_zoom = result
 
 
-            print(int(id_img.split('/')[-2]))
+            #print(int(id_img.split('/')[-2]))
+            print('int(os.path.split(id_img)[0])')
+            print(int(os.path.split(id_img)[0]))
             
-            if int(id_img.split('/')[-2]) > 104:
-                print(output_results_path)
-                print(id_img)
-                print(id_img.split('/')[0])
-                print(not os.path.exists(os.path.join(output_results_path, id_img.split('/')[0])))
-                if not os.path.exists(os.path.join(output_results_path, id_img.split('/')[0])):
+            
+            #if int(id_img.split('/')[-2]) > 104:
+            if int(os.path.split(id_img)[0]) > 104:
+ 
+                #print(not os.path.exists(os.path.join(output_results_path, id_img.split('/')[0])))
+                #if not os.path.exists(os.path.join(output_results_path, id_img.split('/')[0])):
 
-                    os.makedirs(os.path.join(output_results_path, id_img.split('/')[0]))
+                if not os.path.exists(os.path.join(output_results_path, os.path.split(id_img)[0])):
+                    os.makedirs(os.path.join(output_results_path, os.path.split(id_img)[0]))
 
                 mask = np.zeros([512, 512])
                 if bool_zoom == '1':

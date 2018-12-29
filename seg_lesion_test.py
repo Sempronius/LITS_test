@@ -23,13 +23,13 @@ gpu_id = 0
 
 number_slices = 3
 # Test crops_LiTs (default)
-crops_list = 'crops_LiTS_gt.txt'
-# crops list output from compute_3D_bbs_from_gt_liver.py --> This doesn't work. Something is wrong with how compute_3D_bbs is generating its cropsList file. 
-#crops_list = 'crops_LiTS_gt_2.txt'
+#crops_list = 'crops_LiTS_gt.txt'
+#crops list output from compute_3D_bbs_from_gt_liver.py --> This doesn't work. Something is wrong with how compute_3D_bbs is generating its cropsList file. 
+crops_list = 'crops_LiTS_gt_2.txt'
 
 # Changed to match task_name from 'det_lesion_test.py --> however this doesn't work. Something is wrong with det_lesion_test.py and the list it generates
-det_results_list = 'detection_lesion_example'
-#det_results_list = 'det_lesion'
+#det_results_list = 'detection_lesion_example'
+det_results_list = 'det_lesion'
 
 #Changed to match task_name from seg_lesion_train.py
 task_name = 'seg_lesion'

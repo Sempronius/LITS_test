@@ -23,7 +23,7 @@ task_name = 'det_lesion'
 
 database_root = os.path.join(root_folder, 'LiTS_database')
 logs_path = os.path.join(root_folder, 'train_files', task_name, 'networks')
-result_root = os.path.join(root_folder, 'detection_results/')
+result_root = os.path.join(root_folder, 'detection_results')
 
 # Added last model save file from det_lesion_train.py
 model_name = os.path.join(logs_path, "det_lesion.ckpt-5000")
@@ -35,6 +35,7 @@ dataset = Dataset(None, None, val_file_pos, val_file_neg, None, database_root, s
 
 result_path = os.path.join(result_root, task_name)
 checkpoint_path = model_name
+tf.reset_default_graph() 
 detection.validate(dataset, checkpoint_path, result_path, number_slices=1)
 
 """For testing dataset without labels
