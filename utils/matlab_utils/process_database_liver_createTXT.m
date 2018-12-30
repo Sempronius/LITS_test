@@ -1,4 +1,4 @@
-clc
+iteclc
 clear
 %addpath('../../tools/nifti_library/');
 
@@ -87,7 +87,7 @@ xlswrite(filename,finalDat3,1,'G1');
 
 [numData textData rawData] = xlsread('testdata.xlsx')
 T = cell2table(rawData)
-writetable(T,'testData.txt','WriteRowNames',false,'WriteVariableNames',false);
+writetable(T,'testData.txt','WriteRowNames',false,'WriteVariableNames',false,'Delimiter','space');
 
 
 %finalDat1{:,1}
