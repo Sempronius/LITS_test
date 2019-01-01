@@ -37,6 +37,7 @@ database_root = os.path.join(root_folder, 'LiTS_database')
 logs_path = os.path.join(root_folder, 'train_files', task_name, 'networks')
 imagenet_ckpt = os.path.join(root_folder, 'train_files', 'vgg_16.ckpt')
 
+# If training on a new data set (ie, not liver, new data set of nifti files, will need to generate these text files. See matlab util files for a place to start)
 train_file = os.path.join(root_folder, 'seg_DatasetList', 'training_volume_3.txt')
 val_file = os.path.join(root_folder, 'seg_DatasetList', 'testing_volume_3.txt')
 

@@ -1,5 +1,5 @@
 This code is forked from https://github.com/imatge-upc/liverseg-2017-nipsws
-Original code is designed to work with Python 2.7, I will be modifying the code to work with Python 3.7
+Original code is designed to work with Python 2.7, I will be modifying the code to work with Python 3.5.5 on Windows 10 system. 
 
 # Detection-aided liver lesion segmentation
 

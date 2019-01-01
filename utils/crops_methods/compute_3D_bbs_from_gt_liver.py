@@ -190,7 +190,6 @@ for i in range(len(masks_folders)):
 
             
             #original_results_label = imread(os.path.join(liver_results, dir_name, file_names[j].split('.png')[0].split('\\')[1] + '.png'))
-            original_results_label = imread(os.path.join(liver_results, dir_plus_filename + '.png'))
             res_liver_new = original_results_label[total_mina:total_maxa, total_minb:total_maxb]
 
             #misc.imsave(os.path.join(output_liver_results_path_bb, dir_name, file_names[j].split('.png')[0].split('\\')[1] + '.png'), res_liver_new)

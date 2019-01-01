@@ -2,6 +2,7 @@ import numpy as np
 import scipy.misc
 import scipy.io
 import os
+from imageio import imread,imwrite
 
 
 def sample_bbs_test(crops_list, output_file_name):
@@ -30,8 +31,13 @@ def sample_bbs_test(crops_list, output_file_name):
         else:
             id_img, bool_zoom = result
 
+        fname = os.path.basename(id_img) #get filename
+        dname = os.path.dirname(id_img) # get directory name
+        dname = os.path.basename(dname) # get directory name
         if bool_zoom == '1':
-            mask_liver = scipy.misc.imread(os.path.join(liver_masks_path, id_img.split('images_volumes/')[-1].split('.')[0] + '.png'))/255.0
+            #mask_liver = scipy.misc.imread(os.path.join(liver_masks_path, id_img.split('images_volumes/')[-1].split('.')[0] + '.png'))/255.0
+            #mask_liver = scipy.misc.imread(os.path.join(liver_masks_path, dname, fname + '.png'))/255.0
+            mask_liver = imread(os.path.join(liver_masks_path, dname, fname + '.png'))/255.0
             mask_liver[mask_liver > 0.5] = 1.0
             mask_liver[mask_liver < 0.5] = 0.0
 
@@ -55,7 +61,9 @@ def sample_bbs_test(crops_list, output_file_name):
                         if (mina + 50.0*x) > 15.0 and ((mina + (x+1)*50.0) < 512.0) and (minb + y*50.0) > 15.0 and ((minb + (y+1)*50.0) < 512.0):
                             a1 = mina + 50.0*x - 15.0
                             b1 = minb + y*50.0 - 15.0
-                        test_file.write('images_volumes' + '/' + id_img.split('images_volumes/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(1) +  ' ' + '\n')
+                        directory = os.path.join('images_volumes', dname, fname)
+                        #test_file.write('images_volumes' + '/' + id_img.split('images_volumes/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(1) +  ' ' + '\n')
+                        test_file.write(directory + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(1) +  ' ' + '\n')
     test_file.close()
 
 
@@ -91,11 +99,19 @@ def sample_bbs_train(crops_list, output_file_name, data_aug_options):
         else:
             id_img, bool_zoom = result
             
-        if bool_zoom == '1' and int(id_img.split('images_volumes/')[-1].split('.')[0].split('/')[0])!= 59:
-            mask_liver = scipy.misc.imread(os.path.join(liver_masks_path, id_img.split('images_volumes/')[-1].split('.')[0] + '.png'))/255.0
+        #if bool_zoom == '1' and int(id_img.split('images_volumes/')[-1].split('.')[0].split('/')[0])!= 59:
+        fname = os.path.basename(id_img) #get filename
+        dname = os.path.dirname(id_img) # get directory name
+        dname = os.path.basename(dname) # get directory name
+        if bool_zoom == '1' and int(fname)!= 59:
+            #mask_liver = scipy.misc.imread(os.path.join(liver_masks_path, id_img.split('images_volumes/')[-1].split('.')[0] + '.png'))/255.0
+            #mask_liver = scipy.misc.imread(os.path.join(liver_masks_path, dname, fname + '.png'))/255.0
+            mask_liver = imread(os.path.join(liver_masks_path, dname, fname + '.png'))/255.0
             mask_liver[mask_liver > 0.5] = 1.0
             mask_liver[mask_liver < 0.5] = 0.0
-            mask_lesion = scipy.misc.imread(os.path.join(lesion_masks_path, id_img.split('images_volumes/')[-1].split('.')[0] + '.png'))/255.0
+            #mask_lesion = scipy.misc.imread(os.path.join(lesion_masks_path, id_img.split('images_volumes/')[-1].split('.')[0] + '.png'))/255.0
+            #mask_lesion = scipy.misc.imread(os.path.join(lesion_masks_path, dname, fname + '.png'))/255.0
+            mask_lesion = imread(os.path.join(lesion_masks_path, dname, fname + '.png'))/255.0
             mask_lesion[mask_lesion > 0.5] = 1.0
             mask_lesion[mask_lesion < 0.5] = 0.0
             
@@ -124,20 +140,30 @@ def sample_bbs_train(crops_list, output_file_name, data_aug_options):
                                 a1 = mina + 50.0*x - 15.0
                                 b1 = minb + y*50.0 - 15.0
                                 if pos_lesion > 50.0:
-                                    if int(id_img.split('liver_seg/')[-1].split('/')[-2]) < 105:
+                                    #if int(id_img.split('liver_seg/')[-1].split('/')[-2]) < 105:
+                                    if int(dname) < 105:
                                         for j in range(data_aug_options):
-                                            train_positive_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
+                                            directory = os.path.join('images_volumes', dname, fname)
+                                            #train_positive_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
+                                            train_positive_file.write(directory + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
                                     else:
                                         for j in range(1):
-                                            test_positive_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) + ' ' + '\n')
+                                            directory = os.path.join('images_volumes', dname, fname)
+                                            #test_positive_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) + ' ' + '\n')
+                                            test_positive_file.write(directory + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) + ' ' + '\n')
 
                                 else:
-                                    if int(id_img.split('liver_seg/')[-1].split('/')[-2]) < 105:
+                                    #if int(id_img.split('liver_seg/')[-1].split('/')[-2]) < 105:
+                                    if int(dname) < 105:
                                         for j in range(data_aug_options):
-                                            train_negative_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
+                                            directory = os.path.join('images_volumes', dname, fname)
+                                            #train_negative_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
+                                            train_negative_file.write(directory + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
                                     else:
                                         for j in range(1):
-                                            test_negative_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
+                                            directory = os.path.join('images_volumes', dname, fname)
+                                            #test_negative_file.write('images_volumes' + '/' + id_img.split('liver_seg/')[-1] + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
+                                            test_negative_file.write(directory + ' ' + str(a1) + ' ' + str(b1) + ' ' + str(j+1) +  ' ' + '\n')
 
     train_positive_file.close()
     train_negative_file.close()
@@ -147,17 +173,20 @@ def sample_bbs_train(crops_list, output_file_name, data_aug_options):
 
 if __name__ == "__main__":
 
-    database_root = '../../LiTS_database/'
+    #database_root = '../../LiTS_database/'
+    database_root = os.path.join('..','..','LiTs_database')
 
     # Paths for Own Validation set
     images_path = os.path.join(database_root, 'images_volumes')
     liver_masks_path = os.path.join(database_root, 'liver_seg')
     lesion_masks_path = os.path.join(database_root, 'item_seg')
 
-    output_folder_path =  '../../det_DatasetList/'
+    #output_folder_path =  '../../det_DatasetList/'
+    output_folder_path = os.path.join('..','..','det_DatasetList')
 
     # Example of sampling bounding boxes around liver for train images
-    crops_list_sp = '../crops_list/crops_LiTS_gt.txt'
+    #crops_list_sp = '../crops_list/crops_LiTS_gt2.txt'
+    crops_list_sp = os.path.join('..','crops_list','crops_LiTS_gt_2.txt')
     output_file_name_sp = 'example'
     # all possible combinations of data augmentation
     data_aug_options_sp = 8
