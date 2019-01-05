@@ -19,12 +19,19 @@ from dataset.dataset_det_data_aug import Dataset
 gpu_id = 0
 
 # Training parameters
-batch_size = 64
-iter_mean_grad = 1
+#batch_size = 64
+batch_size = 128
+iter_mean_grad = 2 
+#iter_mean_grad = 1 
+#max_training_iters = 5000
 max_training_iters = 5000
+## ********** LOOK AT DOING A TESNROFLOW GRAPH AND JUST FIND BEST CHECKPOINT ***************
 save_step = 200
 display_step = 2
-learning_rate = 0.01
+#learning_rate = 0.001
+learning_rate = 0.0001
+
+
 
 task_name = 'det_lesion'
 
@@ -36,6 +43,8 @@ resnet_ckpt = os.path.join(root_folder, 'train_files', 'resnet_v1_50.ckpt')
 #train_file_neg = os.path.join(root_folder, 'det_DatasetList', 'training_negative_det_patches_data_aug.txt')
 #val_file_pos = os.path.join(root_folder, 'det_DatasetList', 'testing_positive_det_patches_data_aug.txt')
 #val_file_neg = os.path.join(root_folder, 'det_DatasetList', 'testing_negative_det_patches_data_aug.txt')
+
+## Using my results from sample_bbs, training accuracy was 98% but validation accuracy was 50-60%. 
 train_file_pos = os.path.join(root_folder, 'det_DatasetList', 'training_positive_det_patches_example.txt')
 train_file_neg = os.path.join(root_folder, 'det_DatasetList', 'training_negative_det_patches_example.txt')
 val_file_pos = os.path.join(root_folder, 'det_DatasetList', 'testing_positive_det_patches_example.txt')
@@ -48,6 +57,13 @@ dataset = Dataset(train_file_pos, train_file_neg, val_file_pos, val_file_neg, No
 with tf.Graph().as_default():
     with tf.device('/gpu:' + str(gpu_id)):
         global_step = tf.Variable(0, name='global_step', trainable=False)
+        #detection.train(dataset, resnet_ckpt, learning_rate, logs_path, max_training_iters, save_step, display_step,
+                        #global_step, iter_mean_grad=iter_mean_grad, batch_size=batch_size, finetune=0,
+                        #resume_training=False)
         detection.train(dataset, resnet_ckpt, learning_rate, logs_path, max_training_iters, save_step, display_step,
                         global_step, iter_mean_grad=iter_mean_grad, batch_size=batch_size, finetune=0,
                         resume_training=False)
+
+###################### NEED TO UPDATE DETECTION.TRAIN TO ONLY SAVE BEST VALIDATION ACCURACY
+        # https://stackoverflow.com/questions/39252901/tensorflow-save-the-model-with-smallest-validation-error
+

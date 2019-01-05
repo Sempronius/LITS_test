@@ -38,6 +38,14 @@ database_root =  os.path.join(root_folder, 'LiTS_database')
 logs_path = os.path.join(root_folder, 'train_files', task_name, 'networks')
 imagenet_ckpt = os.path.join(root_folder, 'train_files', 'vgg_16.ckpt')
 
+### will need to write something to create this list if using a new data set:
+#In order to train the algorithm that does not backpropagate through pixels outside the liver, each line of the .txt list file 
+#in this case should have the following format:
+
+#img1 seg_lesion1 seg_liver1 result_liver1 img2 seg_lesion2 seg_liver2 result_liver1 img3 seg_lesion3 seg_liver3 result_liver1
+
+###
+
 train_file = os.path.join(root_folder, 'seg_DatasetList', 'training_lesion_commonbb_nobackprop_3.txt')
 val_file = os.path.join(root_folder, 'seg_DatasetList', 'testing_lesion_commonbb_nobackprop_3.txt')
 

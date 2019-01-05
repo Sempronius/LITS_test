@@ -452,7 +452,8 @@ def _train(dataset, initial_ckpt, supervison, learning_rate, logs_path, max_trai
     # Define optimization method
     with tf.name_scope('optimization'):
         tf.summary.scalar('learning_rate', learning_rate)
-        optimizer = tf.train.MomentumOptimizer(learning_rate, momentum)
+        #optimizer = tf.train.MomentumOptimizer(learning_rate, momentum)
+        optimizer = tf.train.AdamOptimizer(learning_rate)
         grads_and_vars = optimizer.compute_gradients(total_loss)
         with tf.name_scope('grad_accumulator'):
             grad_accumulator = []
