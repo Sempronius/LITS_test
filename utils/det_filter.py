@@ -4,11 +4,13 @@ from scipy import misc
 import os
 import scipy.io
 from PIL import Image
+import numpy as np
+import cv2
+from imageio import imread,imwrite,imsave
 
-
-
-#def filter(base_root, crops_list='crops_LiTS_gt.txt', input_config='masked_out_lesion', results_list='detection_lesion_example', th=0.5):
-def filter(base_root, crops_list='crops_LiTS_gt_2.txt', input_config='masked_out_lesion', results_list='det_lesion', th=0.5):
+## detection_lesion_example using the data we have trained
+def filter(base_root, crops_list='crops_LiTS_gt2.txt', input_config='masked_out_lesion', results_list='det_lesion', th=0.5):
+#def filter(base_root, crops_list='crops_LiTS_gt_2.txt', input_config='masked_out_lesion', results_list='det_lesion', th=0.5):
     #crops_list = base_root + '/utils/crops_list/' + crops_list
     crops_list1 = os.path.join(base_root ,'utils','crops_list',crops_list)
     #results_list = base_root + '/detection_results/' + results_list + '/soft_results.txt'
@@ -56,7 +58,12 @@ def filter(base_root, crops_list='crops_LiTS_gt_2.txt', input_config='masked_out
                 total_mask = []
                 for l in range(len(slices_names)):
                     if slices_names[l] == unique_slices_names[x]:
+                        if float(images[l].split()[3]) < th:
+                            print(images[l])
+                            print('is negative')                           
                         if float(images[l].split()[3]) > th:
+                            print(images[l])
+                            print('is positive')
                             aux_mask = np.zeros([512, 512])
                             x_bb = int(float(images[l].split()[1]))
                             y_bb = int(float(images[l].split()[2].split('\n')[0]))
@@ -86,6 +93,18 @@ def filter(base_root, crops_list='crops_LiTS_gt_2.txt', input_config='masked_out
                     summed_thresholded_total_mask[summed_thresholded_total_mask == 0.0] = 1.0
                     summed_mask = np.divide(summed_mask, summed_thresholded_total_mask)
                     summed_mask = summed_mask*255.0
+                    #################################################################
+                    #info = np.iinfo(summed_mask.dtype) # Get the information of the incoming image type
+                    #summed_mask = summed_mask.astype(np.float64) / info.max # normalize the data to 0 - 1
+                    #summed_mask = 255 * summed_mask # Now scale by 255
+                    #summed_mask = summed_mask.astype(np.uint8)
+                    
+                    ###################################################################
+
+                    
+                    ##################################################################
+                    
+                    
                     ##############################################################
                     #############################################################
                     name = unique_slices_names[x].split('.')[0] + '.png'
@@ -96,7 +115,10 @@ def filter(base_root, crops_list='crops_LiTS_gt_2.txt', input_config='masked_out
                     ##############################################################
                     name = os.path.join(dname,fname)
                     ##############################################################
-                    scipy.misc.imsave(os.path.join(output_results_path, name), summed_mask)
+                    print("Saving")
+                    print(os.path.join(output_results_path, name))
+                    output_results_plus_dir_name = os.path.join(output_results_path,dname,fname)
+                    imsave(output_results_plus_dir_name, summed_mask)
 
     for i in range(len(crops_lines)):
             result = crops_lines[i].split(' ')
@@ -108,8 +130,10 @@ def filter(base_root, crops_list='crops_LiTS_gt_2.txt', input_config='masked_out
             #if int(id_img.split('/')[-2]) > 104:
             if int(os.path.split(id_img)[0]) > 104:
                 fname = os.path.join(os.path.split(id_img)[1]+'.png')
+                dname = os.path.dirname(id_img)
+                output_results_plus_dir_name = os.path.join(output_results_path,dname,fname)
                 #if not os.path.exists(os.path.join(output_results_path, id_img + '.png')):
-                if not os.path.exists(os.path.join(output_results_path, fname)):
+                if not os.path.exists(output_results_plus_dir_name):
                     mask = np.zeros([512, 512])
                     #misc.imsave(os.path.join(output_results_path, id_img + '.png'), mask)
-                    misc.imsave(os.path.join(output_results_path, fname), mask)
+                    imsave(output_results_plus_dir_name, mask)

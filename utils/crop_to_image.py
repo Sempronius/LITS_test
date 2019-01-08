@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import misc
 import os
+from imageio import imread,imwrite,imsave
 
 def crop(base_root, input_config='lesion',
          crops_list='crops_LiTS_gt2.txt'):
@@ -27,8 +28,8 @@ def crop(base_root, input_config='lesion',
 
 
             #print(int(id_img.split('/')[-2]))
-            print('int(os.path.split(id_img)[0])')
-            print(int(os.path.split(id_img)[0]))
+            #print('int(os.path.split(id_img)[0])')
+            #print(int(os.path.split(id_img)[0]))
             
             
             #if int(id_img.split('/')[-2]) > 104:
@@ -44,7 +45,19 @@ def crop(base_root, input_config='lesion',
                 if bool_zoom == '1':
                     zoomed_mask = misc.imread(os.path.join(input_results_path, id_img + '.png'))
                     mask[mina:maxa, minb:maxb] = zoomed_mask
-                misc.imsave(os.path.join(output_results_path, id_img + '.png'), mask*255)
-
+                print('Saving file:')
+                print(os.path.join(output_results_path, id_img))
+                mask
+                
+                
+                ############################################################################# this might fix lossy error?
+                #info = np.iinfo(mask.dtype) # Get the information of the incoming image type
+                #mask = mask.astype(np.float64) / info.max # normalize the data to 0 - 1
+                #mask = 255 * mask # Now scale by 255
+                #mask = mask.astype(np.uint8)
+                ############################################################################
+                                               
+                imsave(os.path.join(output_results_path, id_img + '.png'), mask*255)
+                #imsave(os.path.join(output_results_path, id_img + '.png'), mask)
         
         

@@ -21,15 +21,15 @@ gpu_id = 0
 # Training parameters
 #batch_size = 64
 batch_size = 128
-iter_mean_grad = 2 
+iter_mean_grad = 1 
 #iter_mean_grad = 1 
 #max_training_iters = 5000
-max_training_iters = 5000
-## ********** LOOK AT DOING A TESNROFLOW GRAPH AND JUST FIND BEST CHECKPOINT ***************
+max_training_iters = 500
+## Validation accuracy seems to fall apart now around iteration 500??
 save_step = 200
 display_step = 2
 #learning_rate = 0.001
-learning_rate = 0.0001
+learning_rate = 0.01
 
 
 
